@@ -8,44 +8,16 @@
 	let filterArray = [];
 
 
-
-	let allPublishers = [];
-	let uniquePulishers = [];
-
-	let allAlignment = [];
-	let uniqueAlignment = [];
-
-	let allRace = [];
-	let uniqueRace = [];
-
-	let allGender = [];
-	let uniqueGender = []
-
 	onMount(async () => {
+		HerosArray = [];
 		const res = await fetch("https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/all.json");
 		const json = await res.json();
 		json.forEach((item)=>{
-			allPublishers.push(item.biography.publisher);
-			allPublishers = allPublishers;
-			uniquePulishers = [...new Set(allPublishers)].filter(String);
-			uniquePulishers = uniquePulishers;
 
-			allAlignment.push(item.biography.alignment);
-			allAlignment = allAlignment;
-			uniqueAlignment = [...new Set(allAlignment)].filter(String);
-			uniqueAlignment = uniqueAlignment;
 
-			allRace.push(item.appearance.race);
-			allRace = allRace;
-			uniqueRace = [...new Set(allRace)].filter(String);
-			uniqueRace = uniqueRace;
+			HerosArray.push(item);
+			HerosArray = HerosArray;
 
-			allGender.push(item.appearance.gender);
-			allGender = allGender;
-			uniqueGender = [...new Set(allGender)].filter(String);
-			uniqueGender = uniqueGender;
-			// HerosArray.push(item);
-			// HerosArray = HerosArray;
 		})
 	});
 
@@ -56,51 +28,19 @@
 
 
 
-
-
-
-
-
-
-
-
-
-	$: {
- 		if(searchTerm != ""){
-        	filterArray = HerosArray.filter( item => item.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    	}
-	    else{
-	        filterArray = [...HerosArray];
-	    }
-	}
+	$: filterArray = HerosArray.filter( item => item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
 
 
 </script>
 
 <SearchBar bind:value={searchTerm}/>
 
-<div class="advanced-search">
-	<select name="publisherList">
-		{#each uniquePulishers as pub}
-		  <option value="{pub}">{pub}</option>
-		 {/each}
-	</select>
-	<select name="alignment">
-		{#each uniqueAlignment as ali}
-		  <option value="{ali}">{ali === "-" ? "Unique" : ali}</option>
-		 {/each}
-	</select>
-	<select name="Race">
-		{#each uniqueRace as rac}
-		  <option value="{rac}">{rac}</option>
-		 {/each}
-	</select>
-	<select name="Gender">
-		{#each uniqueGender as gen}
-		  <option value="{gen}">{gen === "-" ? "Neutral" : gen}</option>
-		 {/each}
-	</select>
-</div>
+
+
+
+
+
+
 
 
 
@@ -135,30 +75,6 @@
 
 
 <style>
-	.advanced-search{
-		margin-top: 0.6rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-	select{
-		margin-right: 0.3rem;
-		border: none;
-		outline: none;
-		font-family: inherit;
-		font-size: 1.1rem;
-		padding: 0.4rem 0.7rem;
-		background-color: #2d2d2d;
-		color: #b9b9b9;
-		text-transform: capitalize;
-	}
-	option{
-		background-color: #2d2d2d;
-		color: #b9b9b9;
-		margin: 1rem;
-		text-transform: capitalize;
-
-	}
 	main{
 		margin-top: 3rem;
 		width: 100%;

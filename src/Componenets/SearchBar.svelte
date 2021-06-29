@@ -2,18 +2,10 @@
 	export let value = "";
 
 
-
-	function runFun() {
-		if(this.value.trim() != ""){
-     		value = this.value.trim();
-       }
-    }
-
-
 </script>
 
 
-<input {value} on:keyup={runFun} type="search" placeholder="Search your favorite Superhero or Supervillain">
+<input bind:value={value} type="text" placeholder="Search your favorite Superhero or Supervillain">
 
 <style>
 	input{
